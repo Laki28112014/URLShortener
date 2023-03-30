@@ -1,4 +1,4 @@
-package org.example;
+package development.urlshortener;
 
 import org.json.JSONObject;
 
@@ -22,19 +22,18 @@ public class Main {
         System.out.print("Geben Sie eine URL ein: ");
         String urlInput = myObj.nextLine();  // Read user input
         myObj.close();
-
         //endregion
 
-
-
+        //region Connection
         URL url = new URL("https://csclub.uwaterloo.ca/~phthakka/1pt-express/addURL?long=" + urlInput);
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("POST");
         httpURLConnection.setDoInput(true);
         httpURLConnection.setDoOutput(true);
+        //endregion
 
 
-
+        //region Short the link...
         try(BufferedReader br = new BufferedReader(
                 new InputStreamReader(httpURLConnection.getInputStream(), "utf-8"))) {
             StringBuilder response = new StringBuilder();
@@ -46,16 +45,6 @@ public class Main {
             System.out.println("https://1pt.co/" + jsonObject.get("short"));
 
         }
-
-
-
-        /**
-        if (httpURLConnection.getResponseCode() == 200) {
-            BufferedReader inputReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
-            System.out.println(inputReader.readLine());
-        }
-         */
-
-
+        //endregion
     }
 }
